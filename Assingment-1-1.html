@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		
+		function App() {
+			const [inverted, setInverted] = React.useState(false);
+            const [hours, setHours] = React.useState(0);
+            const [minutes, setMinutes] = React.useState(0);
+
+
+			const MtoH = (M) => {
+                return Math.round(M / 60);
+            }
+            const HtoM =(H) => {
+                return H * 60;
+            }
+
+            const Mchange = (event) => {
+                const newMinutes = parseInt(event.target.value, 10);
+                setMinutes(newMinutes);
+                if (!inverted) {
+                    setHours(MtoH(newMinutes));
+                }
+            }
+
+            const Hchange = (event) => {
+                const newHours = parseInt(event.target.value, 10);
+                setHours(newHours);
+                if (inverted) {
+                    setMinutes(HtoM(newHours));
+                }
+            }
+
+			const reset = () => {
+				setMinutes(0);
+                setHours(0);
+			};
+
+			const invert = () => {
+				setInverted(!inverted);
+                setHours(MtoH(minutes));
+                setMinutes(HtoM(hours));
+                
+			};
+
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input placeholder="Minutes" type="number" value={minutes} onChange={Mchange} disabled={inverted} />
+					</div>
+					<div>
+						<label>시: </label>
+						<input placeholder="Hours" type="number" value={hours} onChange={Hchange} disabled={!inverted} />
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={invert}>전환</button>
+					</div>
+				</div>
+			);
+        }
+		ReactDOM.render(<App />, document.getElementById('root'));
+	</script>
+</html>
