@@ -71,7 +71,7 @@ const Purchase = () => {
         </div>
     </div>
     </>
-  );
+  )
 };
 
 export default Purchase;
